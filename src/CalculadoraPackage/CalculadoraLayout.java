@@ -1,6 +1,9 @@
 package CalculadoraPackage;
 
 import java.awt.Container;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.*;
 
 public class CalculadoraLayout extends JFrame implements Calcular{
@@ -10,6 +13,10 @@ public class CalculadoraLayout extends JFrame implements Calcular{
 	private Container contentPane;
 	//panel principal (index)
 	private JPanel panelCalc;
+	//visor principal
+	private JTextArea visor;
+	//numero Alpha
+	private double nAlpha;
 	
 	//constructor
 	public CalculadoraLayout() {
@@ -37,7 +44,7 @@ public class CalculadoraLayout extends JFrame implements Calcular{
 	}
 	
 	private void cargarVisor() {
-		JTextArea visor = new JTextArea();
+		visor = new JTextArea();
 		visor.setBounds(41,30,318,132);
 		visor.setEditable(false);
 		visor.setFont(visorFont);
@@ -100,7 +107,7 @@ public class CalculadoraLayout extends JFrame implements Calcular{
 		b3.setFont(primaryButtonsFont);
 		b3.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		JButton bMenos = new JButton("-");
+		JButton bMenos = new JButton("(-)");
 		bMenos.setBounds(41,449,61,60);
 		bMenos.setBackground(primaryButtonColor);
 		bMenos.setFont(primaryButtonsFont);
@@ -154,20 +161,18 @@ public class CalculadoraLayout extends JFrame implements Calcular{
 		bIgual.setFont(secondaryButtonsFont);
 		bIgual.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		
-		
 		//agrego boton al panel
-		panelCalc.add(b7);
-		panelCalc.add(b8);
-		panelCalc.add(b9);
-		panelCalc.add(b4);
-		panelCalc.add(b5);
-		panelCalc.add(b6);
+		panelCalc.add(b0);
 		panelCalc.add(b1);
 		panelCalc.add(b2);
 		panelCalc.add(b3);
+		panelCalc.add(b4);
+		panelCalc.add(b5);
+		panelCalc.add(b6);
+		panelCalc.add(b7);
+		panelCalc.add(b8);
+		panelCalc.add(b9);
 		panelCalc.add(bMenos);
-		panelCalc.add(b0);
 		panelCalc.add(bPunto);
 		panelCalc.add(bDiv);
 		panelCalc.add(bMulti);
@@ -175,5 +180,129 @@ public class CalculadoraLayout extends JFrame implements Calcular{
 		panelCalc.add(bSuma);
 		panelCalc.add(bClear);
 		panelCalc.add(bIgual);
+		
+		//agrego action listener de para cada boton
+		ActionListener bMenosActionListener = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				visor.append("-");
+			}
+		};
+		ActionListener bPuntoActionListener = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				visor.append(".");
+			}
+		};
+		ActionListener b0ActionListener = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				visor.append("0");
+			}
+		};
+		ActionListener b1ActionListener = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				visor.append("1");
+			}
+		};
+		ActionListener b2ActionListener = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				visor.append("2");
+			}
+		};
+		ActionListener b3ActionListener = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				visor.append("3");
+			}
+		};
+		ActionListener b4ActionListener = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				visor.append("4");
+			}
+		};
+		ActionListener b5ActionListener = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				visor.append("5");
+			}
+		};
+		ActionListener b6ActionListener = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				visor.append("6");
+			}
+		};
+		ActionListener b7ActionListener = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				visor.append("7");
+			}
+		};
+		ActionListener b8ActionListener = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				visor.append("8");
+			}
+		};
+		ActionListener b9ActionListener = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				visor.append("9");
+			}
+		};
+		ActionListener bClearActionListener = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(!visorVacio()) visor.setText("");
+			}
+		};
+		ActionListener bSumaActionListener = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try{
+					if(visorVacio())
+						nAlpha += 0;
+					else
+						nAlpha += Double.parseDouble(visor.getText());
+					visor.setText("");
+				}catch (NumberFormatException nfe) {
+					System.out.println("number format exception en suma");
+				}
+				
+			}
+		};
+		ActionListener bIgualActionListener = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				visor.setText(String.format("%.2f",nAlpha));
+			}
+		};
+		
+		bMenos.addActionListener(bMenosActionListener);
+		bPunto.addActionListener(bPuntoActionListener);
+		b0.addActionListener(b0ActionListener);
+		b1.addActionListener(b1ActionListener);
+		b2.addActionListener(b2ActionListener);
+		b3.addActionListener(b3ActionListener);
+		b4.addActionListener(b4ActionListener);
+		b5.addActionListener(b5ActionListener);
+		b6.addActionListener(b6ActionListener);
+		b7.addActionListener(b7ActionListener);
+		b8.addActionListener(b8ActionListener);
+		b9.addActionListener(b9ActionListener);
+		bClear.addActionListener(bClearActionListener);
+		bSuma.addActionListener(bSumaActionListener);
+		bIgual.addActionListener(bIgualActionListener);
+	}
+	
+	private boolean visorVacio() {
+		if(visor.getText().equals(""))
+			return true;
+		else 			
+			return false;
 	}
 }

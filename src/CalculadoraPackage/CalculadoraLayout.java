@@ -5,14 +5,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 
-
-
 public class CalculadoraLayout extends JFrame implements Calcular{
 	//defino enum con los 4 tipos de operacions que hara la calculadora
 	enum Operacion{
 		SUMA,RESTA,MULTI,DIV,IGUAL,AC;
 	}
 	//el atributo ultimaOperacion guardará cual fue el ultimo boton que se presiono
+	//inicialmente toma el valor AC
 	private Operacion ultimaOperacion = Operacion.AC;
 	
 	//serial version uid
@@ -280,12 +279,9 @@ public class CalculadoraLayout extends JFrame implements Calcular{
 			public void actionPerformed(ActionEvent e) {
 				try{
 					if(!visorVacio()) {
-						if(ultimaOperacion != Operacion.IGUAL) {
+						if(ultimaOperacion != Operacion.IGUAL)
 							nAlpha += Double.parseDouble(visor.getText());
-							ultimaOperacion = Operacion.SUMA;
-						}else {
-							ultimaOperacion = Operacion.SUMA;
- 						}
+						ultimaOperacion = Operacion.SUMA;
 						visor.setText("");
 					}
 				}catch (NumberFormatException nfe) {
@@ -301,7 +297,7 @@ public class CalculadoraLayout extends JFrame implements Calcular{
 			public void actionPerformed(ActionEvent e) {
 				try {
 					if(!visorVacio()) {
-						if(ultimaOperacion == Operacion.AC) {
+						if(ultimaOperacion == Operacion.AC || ultimaOperacion == Operacion.IGUAL) {
 							nAlpha = Double.parseDouble(visor.getText());
 						}else {
 							nAlpha -= Double.parseDouble(visor.getText());
@@ -333,13 +329,18 @@ public class CalculadoraLayout extends JFrame implements Calcular{
 				}catch (NumberFormatException nfe) {
 					System.out.println("number format exception en division");
 					displaySyntaxError();
-//				}catch (ArithmeticException ae) {
-//					System.out.println("arithmetic exception en division - division por cero");
-//					displayMathError();
 				}
 			}
 		};
 		bDiv.addActionListener(bDivActionListener);
+		
+		ActionListener bMultiActionListener = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		};
+		bMulti.addActionListener(bMultiActionListener);
 		
 		ActionListener bIgualActionListener = new ActionListener() {
 			@Override
@@ -396,9 +397,5 @@ public class CalculadoraLayout extends JFrame implements Calcular{
 	
 	private void displaySyntaxError() {
 		visor.setText("Syntax Error");
-	}
-
-	private void displayMathError() {
-		visor.setText("Math Error");
 	}
 }

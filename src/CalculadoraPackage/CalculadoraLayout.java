@@ -6,13 +6,14 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
+
 public class CalculadoraLayout extends JFrame implements Calcular{
 	//defino enum con los 4 tipos de operacions que hara la calculadora
 	enum Operacion{
-		SUMA,RESTA,MULTI,DIV,IGUAL;
+		SUMA,RESTA,MULTI,DIV,IGUAL,AC;
 	}
 	//el atributo ultimaOperacion guardará cual fue el ultimo boton que se presiono
-	private Operacion ultimaOperacion;
+	private Operacion ultimaOperacion = Operacion.AC;
 	
 	//serial version uid
 	private static final long serialVersionUID = 1L;
@@ -189,7 +190,7 @@ public class CalculadoraLayout extends JFrame implements Calcular{
 		panelCalc.add(bClear);
 		panelCalc.add(bIgual);
 		
-		//agrego action listener de para cada boton
+		//agrego action listener de para cada boton numerico
 		ActionListener bMenosActionListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -262,12 +263,18 @@ public class CalculadoraLayout extends JFrame implements Calcular{
 				visor.append("9");
 			}
 		};
+		
+		//agrego action listener para cada boton de operaciones (=,-,/,x,AC,=)
 		ActionListener bClearActionListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(!visorVacio()) visor.setText("");
+				nAlpha = 0;
+				ultimaOperacion = Operacion.AC;
 			}
 		};
+		bClear.addActionListener(bClearActionListener);
+		
 		ActionListener bSumaActionListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -278,7 +285,7 @@ public class CalculadoraLayout extends JFrame implements Calcular{
 							ultimaOperacion = Operacion.SUMA;
 						}else {
 							ultimaOperacion = Operacion.SUMA;
-						}
+ 						}
 						visor.setText("");
 					}
 				}catch (NumberFormatException nfe) {
@@ -287,20 +294,54 @@ public class CalculadoraLayout extends JFrame implements Calcular{
 				}
 			}
 		};
+		bSuma.addActionListener(bSumaActionListener);
+		
+		ActionListener bRestActionListener = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					if(!visorVacio()) {
+						if(ultimaOperacion == Operacion.AC) {
+							nAlpha = Double.parseDouble(visor.getText());
+							ultimaOperacion = Operacion.RESTA;
+						}else {
+							nAlpha -= Double.parseDouble(visor.getText());
+							ultimaOperacion = Operacion.RESTA;
+						}
+						visor.setText("");
+					}
+				}catch (NumberFormatException nfe){
+					System.out.println("number format exception en resta");
+					visor.setText("Syntax Error");
+				}
+			}
+		};
+		bResta.addActionListener(bRestActionListener);
 		
 		ActionListener bIgualActionListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				switch (ultimaOperacion) {
-					case SUMA: {
+				try{
+					switch (ultimaOperacion) {
+					case SUMA: 
 						nAlpha += Double.parseDouble(visor.getText());
-//						visor.setText("");
+						break;
+					case RESTA:
+						nAlpha -= Double.parseDouble(visor.getText());
+						break;
 					}
+					
+					if(ultimaOperacion != Operacion.AC) {
+						visor.setText(String.format("%.2f",nAlpha));
+						ultimaOperacion = Operacion.IGUAL;
+					}
+				}catch (NumberFormatException fne) {
+					System.out.println("number format exception en igual");
+					visor.setText("Syntax Error");
 				}
-				visor.setText(String.format("%.2f",nAlpha));
-				ultimaOperacion = Operacion.IGUAL;
 			}
 		};
+		bIgual.addActionListener(bIgualActionListener);
 		
 		bMenos.addActionListener(bMenosActionListener);
 		bPunto.addActionListener(bPuntoActionListener);
@@ -314,9 +355,6 @@ public class CalculadoraLayout extends JFrame implements Calcular{
 		b7.addActionListener(b7ActionListener);
 		b8.addActionListener(b8ActionListener);
 		b9.addActionListener(b9ActionListener);
-		bClear.addActionListener(bClearActionListener);
-		bSuma.addActionListener(bSumaActionListener);
-		bIgual.addActionListener(bIgualActionListener);
 	}
 	
 	private boolean visorVacio() {

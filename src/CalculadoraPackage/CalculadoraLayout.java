@@ -3,8 +3,8 @@ package CalculadoraPackage;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.*;
+
 
 
 public class CalculadoraLayout extends JFrame implements Calcular{
@@ -290,7 +290,7 @@ public class CalculadoraLayout extends JFrame implements Calcular{
 					}
 				}catch (NumberFormatException nfe) {
 					System.out.println("number format exception en suma");
-					visor.setText("Syntax Error");
+					displaySyntaxError();
 				}
 			}
 		};
@@ -303,20 +303,43 @@ public class CalculadoraLayout extends JFrame implements Calcular{
 					if(!visorVacio()) {
 						if(ultimaOperacion == Operacion.AC) {
 							nAlpha = Double.parseDouble(visor.getText());
-							ultimaOperacion = Operacion.RESTA;
 						}else {
 							nAlpha -= Double.parseDouble(visor.getText());
-							ultimaOperacion = Operacion.RESTA;
 						}
+						ultimaOperacion = Operacion.RESTA;
 						visor.setText("");
 					}
 				}catch (NumberFormatException nfe){
 					System.out.println("number format exception en resta");
-					visor.setText("Syntax Error");
+					displaySyntaxError();
 				}
 			}
 		};
 		bResta.addActionListener(bRestActionListener);
+		
+		ActionListener bDivActionListener = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					if(!visorVacio()) {
+						if(ultimaOperacion == Operacion.AC || ultimaOperacion == Operacion.IGUAL) {
+							nAlpha = Double.parseDouble(visor.getText());
+						}else {
+							nAlpha /= Double.parseDouble(visor.getText());
+						}
+						ultimaOperacion = Operacion.DIV;
+						visor.setText("");
+					}
+				}catch (NumberFormatException nfe) {
+					System.out.println("number format exception en division");
+					displaySyntaxError();
+//				}catch (ArithmeticException ae) {
+//					System.out.println("arithmetic exception en division - division por cero");
+//					displayMathError();
+				}
+			}
+		};
+		bDiv.addActionListener(bDivActionListener);
 		
 		ActionListener bIgualActionListener = new ActionListener() {
 			@Override
@@ -329,6 +352,13 @@ public class CalculadoraLayout extends JFrame implements Calcular{
 					case RESTA:
 						nAlpha -= Double.parseDouble(visor.getText());
 						break;
+					case DIV:
+						nAlpha /= Double.parseDouble(visor.getText());
+						break;
+					case MULTI:
+						break;
+					default:
+						break;
 					}
 					
 					if(ultimaOperacion != Operacion.AC) {
@@ -337,7 +367,7 @@ public class CalculadoraLayout extends JFrame implements Calcular{
 					}
 				}catch (NumberFormatException fne) {
 					System.out.println("number format exception en igual");
-					visor.setText("Syntax Error");
+					displaySyntaxError();
 				}
 			}
 		};
@@ -362,5 +392,13 @@ public class CalculadoraLayout extends JFrame implements Calcular{
 			return true;
 		else 			
 			return false;
+	}
+	
+	private void displaySyntaxError() {
+		visor.setText("Syntax Error");
+	}
+
+	private void displayMathError() {
+		visor.setText("Math Error");
 	}
 }

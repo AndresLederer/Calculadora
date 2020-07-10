@@ -9,7 +9,7 @@ import javax.swing.*;
 public class CalculadoraLayout extends JFrame implements Calcular{
 	//defino enum con los 4 tipos de operacions que hara la calculadora
 	enum Operacion{
-		SUMA,RESTA,MULTI,DIV;
+		SUMA,RESTA,MULTI,DIV,IGUAL;
 	}
 	//el atributo ultimaOperacion guardará cual fue el ultimo boton que se presiono
 	private Operacion ultimaOperacion;
@@ -272,28 +272,33 @@ public class CalculadoraLayout extends JFrame implements Calcular{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try{
-					if(visorVacio())
-						nAlpha += 0;
-					else
-						nAlpha += Double.parseDouble(visor.getText());
-					ultimaOperacion = Operacion.SUMA;
-					visor.setText("");
+					if(!visorVacio()) {
+						if(ultimaOperacion != Operacion.IGUAL) {
+							nAlpha += Double.parseDouble(visor.getText());
+							ultimaOperacion = Operacion.SUMA;
+						}else {
+							ultimaOperacion = Operacion.SUMA;
+						}
+						visor.setText("");
+					}
 				}catch (NumberFormatException nfe) {
 					System.out.println("number format exception en suma");
 					visor.setText("Syntax Error");
 				}
 			}
 		};
+		
 		ActionListener bIgualActionListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				switch (ultimaOperacion) {
 					case SUMA: {
 						nAlpha += Double.parseDouble(visor.getText());
-						visor.setText("");
+//						visor.setText("");
 					}
 				}
 				visor.setText(String.format("%.2f",nAlpha));
+				ultimaOperacion = Operacion.IGUAL;
 			}
 		};
 		

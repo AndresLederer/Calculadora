@@ -12,5 +12,4 @@ public interface Calcular {
 	public Font visorFont = new Font("arial",Font.ITALIC,40);
 	public Font primaryButtonsFont = new Font("arial",Font.PLAIN,20);
 	public Font secondaryButtonsFont = new Font("arial",Font.BOLD,20);
-	//metodos
 }

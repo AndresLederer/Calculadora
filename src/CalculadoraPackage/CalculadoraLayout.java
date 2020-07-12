@@ -169,7 +169,7 @@ public class CalculadoraLayout extends JFrame implements Calcular{
 		bIgual.setFont(secondaryButtonsFont);
 		bIgual.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		//agrego boton al panel
+		//agrego botones al panel
 		panelCalc.add(b0);
 		panelCalc.add(b1);
 		panelCalc.add(b2);
@@ -262,6 +262,20 @@ public class CalculadoraLayout extends JFrame implements Calcular{
 				visor.append("9");
 			}
 		};
+		//agrego action listeners a los botones principales
+		bMenos.addActionListener(bMenosActionListener);
+		bPunto.addActionListener(bPuntoActionListener);
+		b0.addActionListener(b0ActionListener);
+		b1.addActionListener(b1ActionListener);
+		b2.addActionListener(b2ActionListener);
+		b3.addActionListener(b3ActionListener);
+		b4.addActionListener(b4ActionListener);
+		b5.addActionListener(b5ActionListener);
+		b6.addActionListener(b6ActionListener);
+		b7.addActionListener(b7ActionListener);
+		b8.addActionListener(b8ActionListener);
+		b9.addActionListener(b9ActionListener);
+		
 		
 		//agrego action listener para cada boton de operaciones (=,-,/,x,AC,=)
 		ActionListener bClearActionListener = new ActionListener() {
@@ -337,7 +351,19 @@ public class CalculadoraLayout extends JFrame implements Calcular{
 		ActionListener bMultiActionListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+				try {
+					if(!visorVacio()) {
+						if(ultimaOperacion == Operacion.AC || ultimaOperacion == Operacion.IGUAL)
+							nAlpha = Double.parseDouble(visor.getText());
+						else
+							nAlpha *= Double.parseDouble(visor.getText());
+						ultimaOperacion = Operacion.MULTI;
+						visor.setText("");
+					}
+				}catch (NumberFormatException nfe){
+					System.out.println("number format exception en multiplicacion");
+					displaySyntaxError();
+				}
 			}
 		};
 		bMulti.addActionListener(bMultiActionListener);
@@ -357,6 +383,7 @@ public class CalculadoraLayout extends JFrame implements Calcular{
 						nAlpha /= Double.parseDouble(visor.getText());
 						break;
 					case MULTI:
+						nAlpha *= Double.parseDouble(visor.getText());
 						break;
 					default:
 						break;
@@ -373,21 +400,10 @@ public class CalculadoraLayout extends JFrame implements Calcular{
 			}
 		};
 		bIgual.addActionListener(bIgualActionListener);
-		
-		bMenos.addActionListener(bMenosActionListener);
-		bPunto.addActionListener(bPuntoActionListener);
-		b0.addActionListener(b0ActionListener);
-		b1.addActionListener(b1ActionListener);
-		b2.addActionListener(b2ActionListener);
-		b3.addActionListener(b3ActionListener);
-		b4.addActionListener(b4ActionListener);
-		b5.addActionListener(b5ActionListener);
-		b6.addActionListener(b6ActionListener);
-		b7.addActionListener(b7ActionListener);
-		b8.addActionListener(b8ActionListener);
-		b9.addActionListener(b9ActionListener);
 	}
 	
+	
+	//devuelve true si el visor esta vacio
 	private boolean visorVacio() {
 		if(visor.getText().equals(""))
 			return true;
@@ -395,6 +411,7 @@ public class CalculadoraLayout extends JFrame implements Calcular{
 			return false;
 	}
 	
+	//muestra en el visor un mensaje de error
 	private void displaySyntaxError() {
 		visor.setText("Syntax Error");
 	}

@@ -1,5 +1,6 @@
 package CalculadoraPackage;
 
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,6 +26,15 @@ public class CalculadoraLayout extends JFrame implements Calcular{
 	//numero Alpha
 	private double nAlpha;
 	
+	//panel de colores dark
+	private Color bgColor = new Color(24, 29, 39);
+	private Color primaryButtonColor = new Color(255, 200, 87); //109, 142, 160
+	private Color secondaryButtonColor = new Color(199, 130, 131);
+	
+	//panel de colores light
+//	private Color lightBgColor = new Color(133, 133, 133);
+//	private Color lightPrimaryButtonsColor = new Color(0, 162, 255);
+//	private Color lightSecondaryButtonsColor = new Color(0, 111, 255);
 	
 	//constructor
 	public CalculadoraLayout() {
@@ -36,17 +46,19 @@ public class CalculadoraLayout extends JFrame implements Calcular{
 		setLocationRelativeTo(null);
 		contentPane = getContentPane();
 		//cargo panel index
-		cargarPanel();
+		cargarPanelLight();
 	}
 	
 	//crea JPanel index
-	private void cargarPanel() {
+	private void cargarPanelLight() {
 		panelCalc = new JPanel();
 		panelCalc.setLayout(null);
 		panelCalc.setBackground(bgColor);
+		
 		//cargo componentes al panel
 		cargarVisor();
 		cargarBotones();
+		cargarRadioBotones();
 		
 		contentPane.add(panelCalc);
 	}
@@ -414,5 +426,18 @@ public class CalculadoraLayout extends JFrame implements Calcular{
 	//muestra en el visor un mensaje de error
 	private void displaySyntaxError() {
 		visor.setText("Syntax Error");
+	}
+
+	private void cargarRadioBotones() {
+		JRadioButton rbLight = new JRadioButton("Light",false);
+		rbLight.setBounds(100,580,90,15);
+		JRadioButton rbDark = new JRadioButton("Dark",true);
+		rbDark.setBounds(210,580,90,15);
+		ButtonGroup radioButtonGroup = new ButtonGroup();
+		radioButtonGroup.add(rbLight);
+		radioButtonGroup.add(rbDark);
+		
+		panelCalc.add(rbLight);
+		panelCalc.add(rbDark);
 	}
 }

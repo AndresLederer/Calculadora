@@ -26,16 +26,6 @@ public class CalculadoraLayout extends JFrame implements Calcular{
 	//numero Alpha
 	private double nAlpha;
 	
-	//panel de colores dark
-	private Color bgColor = new Color(24, 29, 39);
-	private Color primaryButtonColor = new Color(255, 200, 87); //109, 142, 160
-	private Color secondaryButtonColor = new Color(199, 130, 131);
-	
-	//panel de colores light
-//	private Color lightBgColor = new Color(133, 133, 133);
-//	private Color lightPrimaryButtonsColor = new Color(0, 162, 255);
-//	private Color lightSecondaryButtonsColor = new Color(0, 111, 255);
-	
 	//constructor
 	public CalculadoraLayout() {
 		//defino atributos del JFrame
@@ -72,6 +62,7 @@ public class CalculadoraLayout extends JFrame implements Calcular{
 		panelCalc.add(visor);
 	}	
 	
+	//instancio todos los botones
 	private void cargarBotones() {
 		JButton b7 = new JButton("7");
 		b7.setBounds(41,190,61,60);
@@ -413,8 +404,7 @@ public class CalculadoraLayout extends JFrame implements Calcular{
 		};
 		bIgual.addActionListener(bIgualActionListener);
 	}
-	
-	
+		
 	//devuelve true si el visor esta vacio
 	private boolean visorVacio() {
 		if(visor.getText().equals(""))
@@ -429,15 +419,50 @@ public class CalculadoraLayout extends JFrame implements Calcular{
 	}
 
 	private void cargarRadioBotones() {
+		//instancio los radio buttons
 		JRadioButton rbLight = new JRadioButton("Light",false);
 		rbLight.setBounds(100,580,90,15);
+		rbLight.setBackground(bgColor);
+		rbLight.setOpaque(true);
+		rbLight.setForeground(Color.white);
+		
 		JRadioButton rbDark = new JRadioButton("Dark",true);
 		rbDark.setBounds(210,580,90,15);
+		rbDark.setBackground(bgColor);
+		rbDark.setOpaque(true);
+		rbDark.setForeground(Color.white);
+		
+		//agrupo los radio buttons
 		ButtonGroup radioButtonGroup = new ButtonGroup();
 		radioButtonGroup.add(rbLight);
 		radioButtonGroup.add(rbDark);
 		
 		panelCalc.add(rbLight);
 		panelCalc.add(rbDark);
+		
+		//agrego action listener y eventos  los radio buttons
+		ActionListener rbLightListener = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				 panelCalc.setBackground(lightBgColor);
+				 rbLight.setBackground(lightBgColor);
+				 rbDark.setBackground(lightBgColor);
+				 rbLight.setForeground(Color.black);
+				 rbDark.setForeground(Color.black);
+			}
+		};
+		rbLight.addActionListener(rbLightListener);
+		
+		ActionListener rbDarListener = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				panelCalc.setBackground(bgColor);
+				rbLight.setBackground(bgColor);
+				rbDark.setBackground(bgColor);
+				rbLight.setForeground(Color.white);
+				rbDark.setForeground(Color.white);
+			}
+		};
+		rbDark.addActionListener(rbDarListener);
 	}
 }

@@ -24,9 +24,13 @@ public class CalculadoraLayout extends JFrame implements Calcular{
 	private JPanel panelCalc;
 	//visor principal
 	private JTextArea visor;
-	//panel,visores para propinas
-	private JPanel tipsPanel;
-	private JTextArea totalTipsPanel;
+	//visores para propinas
+	private JTextArea totalTips;
+	private JTextField cantPersonasTips;
+//	private JTextField porcentajeTips;
+//	private JTextField propinaTotal;
+//	private JTextField propinaPorPersona;
+//	
 	//numero Alpha
 	private double nAlpha;
 	
@@ -38,7 +42,9 @@ public class CalculadoraLayout extends JFrame implements Calcular{
 		setResizable(false);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
+		
 		contentPane = getContentPane();
+		
 		//cargo panel index
 		cargarPanelLight();
 	}
@@ -50,10 +56,11 @@ public class CalculadoraLayout extends JFrame implements Calcular{
 		panelCalc.setBackground(bgColor);
 		
 		//cargo componentes al panel
-//		cargarVisor();
+		cargarVisor();
 		cargarBotones();
 		cargarRadioBotones();
-		cargarTipsPanel();
+		//componentes para "propinas"
+		cargarVisoresTipsPanel();
 		
 		contentPane.add(panelCalc);
 	}
@@ -63,6 +70,8 @@ public class CalculadoraLayout extends JFrame implements Calcular{
 		visor.setBounds(41,30,318,132);
 		visor.setEditable(false);
 		visor.setFont(visorFont);
+		visor.setVisible(true);
+		
 		//agrego el visor al panel
 		panelCalc.add(visor);
 	}	
@@ -415,6 +424,22 @@ public class CalculadoraLayout extends JFrame implements Calcular{
 			}
 		};
 		bIgual.addActionListener(bIgualActionListener);
+		
+		ActionListener tipsActionListener = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(visor.isVisible()) {
+					visor.setVisible(false);
+					totalTips.setVisible(true);
+					cantPersonasTips.setVisible(true);
+				}else {
+					totalTips.setVisible(false);
+					cantPersonasTips.setVisible(false);
+					visor.setVisible(true);
+				}
+			}
+		};
+		bTips.addActionListener(tipsActionListener);
 	}
 		
 	//devuelve true si el visor esta vacio
@@ -478,29 +503,35 @@ public class CalculadoraLayout extends JFrame implements Calcular{
 		rbDark.addActionListener(rbDarListener);
 	}
 	
-	//panel de propinas
-	private void cargarTipsPanel() {
-		tipsPanel = new JPanel();
-		tipsPanel.setLayout(null);
-		tipsPanel.setBackground(bgColor);
+//	//panel de propinas
+//	private void cargarTipsPanel() {
+//		tipsPanel = new JPanel();
+//		tipsPanel.setLayout(null);
+//		tipsPanel.setBackground(bgColor);
 //		tipsPanel.setVisible(false);
-		
-		cargarVisoresTipsPanel();
+//		
+//		cargarVisoresTipsPanel();
 //		cargarTextosTipsPanel();
-		
-		contentPane.add(tipsPanel);
-	}
+//		
+//		contentPane.add(tipsPanel);
+//	}
 	
 	//carga todos los visores del panel de propinas
 	private void cargarVisoresTipsPanel() {
-		totalTipsPanel = new JTextArea("200");
-		totalTipsPanel.setBounds(41,30,318,66);
-		totalTipsPanel.setEditable(false);
-		totalTipsPanel.setFont(visorFont);
+		totalTips= new JTextArea("200");
+		totalTips.setBounds(41,30,318,50);
+		totalTips.setEditable(false);
+		totalTips.setFont(visorFont);
+		totalTips.setVisible(false);
 		
+		cantPersonasTips = new JTextField("5");
+		cantPersonasTips.setBounds(41,109,150,20);
+		cantPersonasTips.setEditable(false);
+		cantPersonasTips.setFont(tipsVisorFont);
+		cantPersonasTips.setVisible(false);
 		
-		
-		panelCalc.add(totalTipsPanel);
+		panelCalc.add(totalTips);
+		panelCalc.add(cantPersonasTips);
 	}
 	
 	

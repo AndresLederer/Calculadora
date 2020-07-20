@@ -2,6 +2,7 @@ package CalculadoraPackage;
 
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
@@ -23,6 +24,9 @@ public class CalculadoraLayout extends JFrame implements Calcular{
 	private JPanel panelCalc;
 	//visor principal
 	private JTextArea visor;
+	//panel,visores para propinas
+	private JPanel tipsPanel;
+	private JTextArea totalTipsPanel;
 	//numero Alpha
 	private double nAlpha;
 	
@@ -46,9 +50,10 @@ public class CalculadoraLayout extends JFrame implements Calcular{
 		panelCalc.setBackground(bgColor);
 		
 		//cargo componentes al panel
-		cargarVisor();
+//		cargarVisor();
 		cargarBotones();
 		cargarRadioBotones();
+		cargarTipsPanel();
 		
 		contentPane.add(panelCalc);
 	}
@@ -172,6 +177,12 @@ public class CalculadoraLayout extends JFrame implements Calcular{
 		bIgual.setFont(secondaryButtonsFont);
 		bIgual.setHorizontalAlignment(SwingConstants.CENTER);
 		
+		JButton bTips = new JButton("TIPS");
+		bTips.setBounds(298,527,61,43);
+		bTips.setBackground(secondaryButtonColor);
+		bTips.setFont(new Font("arial",Font.BOLD,12));
+		bTips.setHorizontalAlignment(SwingConstants.CENTER);
+		
 		//agrego botones al panel
 		panelCalc.add(b0);
 		panelCalc.add(b1);
@@ -191,6 +202,7 @@ public class CalculadoraLayout extends JFrame implements Calcular{
 		panelCalc.add(bSuma);
 		panelCalc.add(bClear);
 		panelCalc.add(bIgual);
+		panelCalc.add(bTips);
 		
 		//agrego action listener de para cada boton numerico
 		ActionListener bMenosActionListener = new ActionListener() {
@@ -465,4 +477,53 @@ public class CalculadoraLayout extends JFrame implements Calcular{
 		};
 		rbDark.addActionListener(rbDarListener);
 	}
+	
+	//panel de propinas
+	private void cargarTipsPanel() {
+		tipsPanel = new JPanel();
+		tipsPanel.setLayout(null);
+		tipsPanel.setBackground(bgColor);
+//		tipsPanel.setVisible(false);
+		
+		cargarVisoresTipsPanel();
+//		cargarTextosTipsPanel();
+		
+		contentPane.add(tipsPanel);
+	}
+	
+	//carga todos los visores del panel de propinas
+	private void cargarVisoresTipsPanel() {
+		totalTipsPanel = new JTextArea("200");
+		totalTipsPanel.setBounds(41,30,318,66);
+		totalTipsPanel.setEditable(false);
+		totalTipsPanel.setFont(visorFont);
+		
+		
+		
+		panelCalc.add(totalTipsPanel);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

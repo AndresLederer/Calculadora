@@ -27,10 +27,17 @@ public class CalculadoraLayout extends JFrame implements Calcular{
 	//visores para propinas
 	private JTextArea totalTips;
 	private JTextField cantPersonasTips;
-//	private JTextField porcentajeTips;
-//	private JTextField propinaTotal;
-//	private JTextField propinaPorPersona;
-//	
+	private JTextField porcentajeTips;
+	private JTextField propinaTotal;
+	private JTextField propinaPorPersona;
+	//jlabels para propinas
+	private JLabel totalTipsJLabel;
+	private JLabel cantPersonasJLabel;
+	private JLabel porcentajeTipsJLabel;
+	private JLabel propinaTotalJLabel;
+	private JLabel propinaPorPersonaJLabel;
+	
+	
 	//numero Alpha
 	private double nAlpha;
 	
@@ -61,6 +68,7 @@ public class CalculadoraLayout extends JFrame implements Calcular{
 		cargarRadioBotones();
 		//componentes para "propinas"
 		cargarVisoresTipsPanel();
+		cargarEtiquetasTipsPanel();
 		
 		contentPane.add(panelCalc);
 	}
@@ -425,17 +433,35 @@ public class CalculadoraLayout extends JFrame implements Calcular{
 		};
 		bIgual.addActionListener(bIgualActionListener);
 		
+		//el boton TIPS cambia de un formato de visor a otro
+		//cambia la visibilidad de los jtextfields,jtextarea y jlabels
 		ActionListener tipsActionListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(visor.isVisible()) {
+					//oculto el visor standar y cambio el txt del btn a "StandardCalc"
 					visor.setVisible(false);
+					bTips.setText("SC");
+					//muestro todos los visores de TIPS
 					totalTips.setVisible(true);
 					cantPersonasTips.setVisible(true);
+					porcentajeTips.setVisible(true);
+					propinaTotal.setVisible(true);
+					propinaPorPersona.setVisible(true);
+					//muestros los txt JLabel (UI)
+					totalTipsJLabel.setVisible(true);
 				}else {
+					//oculto todos los visores de TIPS
 					totalTips.setVisible(false);
 					cantPersonasTips.setVisible(false);
+					porcentajeTips.setVisible(false);
+					propinaTotal.setVisible(false);
+					propinaPorPersona.setVisible(false);
+					//oculto todas las txt JLabel (UI)
+					totalTipsJLabel.setVisible(false);
+					//hago visible el visor de StandardCalc y cambio el txt del btn
 					visor.setVisible(true);
+					bTips.setText("TIPS");
 				}
 			}
 		};
@@ -503,38 +529,61 @@ public class CalculadoraLayout extends JFrame implements Calcular{
 		rbDark.addActionListener(rbDarListener);
 	}
 	
-//	//panel de propinas
-//	private void cargarTipsPanel() {
-//		tipsPanel = new JPanel();
-//		tipsPanel.setLayout(null);
-//		tipsPanel.setBackground(bgColor);
-//		tipsPanel.setVisible(false);
-//		
-//		cargarVisoresTipsPanel();
-//		cargarTextosTipsPanel();
-//		
-//		contentPane.add(tipsPanel);
-//	}
-	
 	//carga todos los visores del panel de propinas
 	private void cargarVisoresTipsPanel() {
+		//indica el monto total a pagar (SIN PROPINA)
 		totalTips= new JTextArea("200");
 		totalTips.setBounds(41,30,318,50);
 		totalTips.setEditable(false);
 		totalTips.setFont(visorFont);
 		totalTips.setVisible(false);
 		
+		//indica la cantidad de personas (clientes)
 		cantPersonasTips = new JTextField("5");
-		cantPersonasTips.setBounds(41,109,150,20);
+		cantPersonasTips.setBounds(41,101,150,20);
 		cantPersonasTips.setEditable(false);
 		cantPersonasTips.setFont(tipsVisorFont);
 		cantPersonasTips.setVisible(false);
 		
+		//indica el porcentaje que se quiere dejar de propina (de 0 a 100)
+		porcentajeTips = new JTextField();
+		porcentajeTips.setBounds(209,101,150,20);
+		porcentajeTips.setEditable(false);
+		porcentajeTips.setFont(tipsVisorFont);
+		porcentajeTips.setVisible(false);
+		
+		//indica la propina total a pagar POR SOBRE el total
+		propinaTotal = new JTextField();
+		propinaTotal.setBounds(41,142,150,20);
+		propinaTotal.setEditable(false);
+		propinaTotal.setFont(tipsVisorFont);
+		propinaTotal.setVisible(false);
+		
+		//indica la cantidad de propina que debe poner cada persona (cliente)
+		propinaPorPersona = new JTextField();
+		propinaPorPersona.setBounds(209,142,150,20);
+		propinaPorPersona.setFont(tipsVisorFont);
+		propinaPorPersona.setEditable(false);
+		propinaPorPersona.setVisible(false);
+		
 		panelCalc.add(totalTips);
 		panelCalc.add(cantPersonasTips);
+		panelCalc.add(porcentajeTips);
+		panelCalc.add(propinaTotal);
+		panelCalc.add(propinaPorPersona);
+		
 	}
 	
-	
+	//construye las label (txt) del panel de propinas
+	private void cargarEtiquetasTipsPanel() {
+		totalTipsJLabel = new JLabel("Total sin propina");
+		totalTipsJLabel.setBounds(41,10,150,15);
+		totalTipsJLabel.setFont(textLabelFont);
+		totalTipsJLabel.setForeground(Color.white);
+		totalTipsJLabel.setVisible(false);
+		
+		panelCalc.add(totalTipsJLabel);
+	}
 	
 	
 	

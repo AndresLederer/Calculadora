@@ -36,7 +36,27 @@ public class CalculadoraLayout extends JFrame implements Calcular{
 	private JLabel porcentajeTipsJLabel;
 	private JLabel propinaTotalJLabel;
 	private JLabel propinaPorPersonaJLabel;
-	
+	//botones primarios
+	private JButton b0;
+	private JButton b1;
+	private JButton b2;
+	private JButton b3;
+	private JButton b4;
+	private JButton b5;
+	private JButton b6;
+	private JButton b7;
+	private JButton b8;
+	private JButton b9;
+	//botones secundarios
+	private JButton bMenos;
+	private JButton bPunto;
+	private JButton bDiv;
+	private JButton bMulti;
+	private JButton bSuma;
+	private JButton bResta;
+	private JButton bClear;
+	private JButton bIgual;
+	private JButton bTips;
 	
 	//numero Alpha
 	private double nAlpha;
@@ -86,115 +106,115 @@ public class CalculadoraLayout extends JFrame implements Calcular{
 	
 	//instancio todos los botones
 	private void cargarBotones() {
-		JButton b7 = new JButton("7");
+		b7 = new JButton("7");
 		b7.setBounds(41,190,61,60);
 		b7.setBackground(primaryButtonColor);
 		b7.setFont(primaryButtonsFont);
 		b7.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		JButton b8 = new JButton("8");
+		b8 = new JButton("8");
 		b8.setBounds(127,190,61,60);
 		b8.setBackground(primaryButtonColor);
 		b8.setFont(primaryButtonsFont);
 		b8.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		JButton b9 = new JButton("9");
+		b9 = new JButton("9");
 		b9.setBounds(213,190,61,60);
 		b9.setBackground(primaryButtonColor);
 		b9.setFont(primaryButtonsFont);
 		b9.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		JButton b4 = new JButton("4");
+		b4 = new JButton("4");
 		b4.setBounds(41,276,61,60);
 		b4.setBackground(primaryButtonColor);
 		b4.setFont(primaryButtonsFont);
 		b4.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		JButton b5 = new JButton("5");
+		b5 = new JButton("5");
 		b5.setBounds(127,276,61,60);
 		b5.setBackground(primaryButtonColor);
 		b5.setFont(primaryButtonsFont);
 		b5.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		JButton b6 = new JButton("6");
+		b6 = new JButton("6");
 		b6.setBounds(213,276,61,60);
 		b6.setBackground(primaryButtonColor);
 		b6.setFont(primaryButtonsFont);
 		b6.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		JButton b1 = new JButton("1");
+		b1 = new JButton("1");
 		b1.setBounds(41,362,61,60);
 		b1.setBackground(primaryButtonColor);
 		b1.setFont(primaryButtonsFont);
 		b1.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		JButton b2 = new JButton("2");
+		b2 = new JButton("2");
 		b2.setBounds(127,362,61,60);
 		b2.setBackground(primaryButtonColor);
 		b2.setFont(primaryButtonsFont);
 		b2.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		JButton b3 = new JButton("3");
+		b3 = new JButton("3");
 		b3.setBounds(213,362,61,60);
 		b3.setBackground(primaryButtonColor);
 		b3.setFont(primaryButtonsFont);
 		b3.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		JButton bMenos = new JButton("(-)");
+		bMenos = new JButton("(-)");
 		bMenos.setBounds(41,449,61,60);
 		bMenos.setBackground(primaryButtonColor);
 		bMenos.setFont(primaryButtonsFont);
 		bMenos.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		JButton b0 = new JButton("0");
+		b0 = new JButton("0");
 		b0.setBounds(127,449,61,60);
 		b0.setBackground(primaryButtonColor);
 		b0.setFont(primaryButtonsFont);
 		b0.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		JButton bPunto = new JButton(".");
+		bPunto = new JButton(".");
 		bPunto.setBounds(213,449,61,60);
 		bPunto.setBackground(primaryButtonColor);
 		bPunto.setFont(primaryButtonsFont);
 		bPunto.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		JButton bDiv = new JButton("/");
+		bDiv = new JButton("/");
 		bDiv.setBounds(298,190,61,60);
 		bDiv.setBackground(secondaryButtonColor);
 		bDiv.setFont(secondaryButtonsFont);
 		bDiv.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		JButton bMulti= new JButton("x");
+		bMulti= new JButton("x");
 		bMulti.setBounds(298,276,61,60);
 		bMulti.setBackground(secondaryButtonColor);
 		bMulti.setFont(secondaryButtonsFont);
 		bMulti.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		JButton bResta = new JButton("-");
+		bResta = new JButton("-");
 		bResta.setBounds(298,362,61,60);
 		bResta.setBackground(secondaryButtonColor);
 		bResta.setFont(secondaryButtonsFont);
 		bResta.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		JButton bSuma = new JButton("+");
+		bSuma = new JButton("+");
 		bSuma.setBounds(298,449,61,60);
 		bSuma.setBackground(secondaryButtonColor);
 		bSuma.setFont(secondaryButtonsFont);
 		bSuma.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		JButton bClear = new JButton("AC");
+		bClear = new JButton("AC");
 		bClear.setBounds(41,527,101,43);
 		bClear.setBackground(secondaryButtonColor);
 		bClear.setFont(secondaryButtonsFont);
 		bClear.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		JButton bIgual = new JButton("=");
+		bIgual = new JButton("=");
 		bIgual.setBounds(173,527,101,43);
 		bIgual.setBackground(secondaryButtonColor);
 		bIgual.setFont(secondaryButtonsFont);
 		bIgual.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		JButton bTips = new JButton("TIPS");
+		bTips = new JButton("TIPS");
 		bTips.setBounds(298,527,61,43);
 		bTips.setBackground(secondaryButtonColor);
 		bTips.setFont(new Font("arial",Font.BOLD,12));
@@ -515,26 +535,110 @@ public class CalculadoraLayout extends JFrame implements Calcular{
 		ActionListener rbLightListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				 panelCalc.setBackground(lightBgColor);
-				 rbLight.setBackground(lightBgColor);
-				 rbDark.setBackground(lightBgColor);
-				 rbLight.setForeground(Color.black);
-				 rbDark.setForeground(Color.black);
+			//cambio color del fondo	 
+			panelCalc.setBackground(lightBgColor);
+			//cambio color de los botones primarios
+			b1.setBackground(primaryButtonColorLight);
+			b1.setForeground(Color.white);
+			b2.setBackground(primaryButtonColorLight);
+			b2.setForeground(Color.white);
+			b3.setBackground(primaryButtonColorLight);
+			b3.setForeground(Color.white);
+			b4.setBackground(primaryButtonColorLight);
+			b4.setForeground(Color.white);
+			b5.setBackground(primaryButtonColorLight);
+			b5.setForeground(Color.white);
+			b6.setBackground(primaryButtonColorLight);
+			b6.setForeground(Color.white);
+			b7.setBackground(primaryButtonColorLight);
+			b7.setForeground(Color.white);
+			b8.setBackground(primaryButtonColorLight);
+			b8.setForeground(Color.white);
+			b9.setBackground(primaryButtonColorLight);
+			b9.setForeground(Color.white);
+			b0.setBackground(primaryButtonColorLight);
+			b0.setForeground(Color.white);
+			bMenos.setBackground(primaryButtonColorLight);
+			bMenos.setForeground(Color.white);
+			bPunto.setBackground(primaryButtonColorLight);
+			bPunto.setForeground(Color.white);
+			//cambio color de los botones secundarios
+			bClear.setBackground(secondaryButtonColorLight);
+			bClear.setForeground(Color.white);
+			bIgual.setBackground(secondaryButtonColorLight);
+			bIgual.setForeground(Color.white);
+			bSuma.setBackground(secondaryButtonColorLight);
+			bSuma.setForeground(Color.white);
+			bResta.setBackground(secondaryButtonColorLight);
+			bResta.setForeground(Color.white);
+			bMulti.setBackground(secondaryButtonColorLight);
+			bMulti.setForeground(Color.white);
+			bDiv.setBackground(secondaryButtonColorLight);
+			bDiv.setForeground(Color.white);
+			bTips.setBackground(secondaryButtonColorLight);
+			bTips.setForeground(Color.white);
+			//cambio color de los radio buttons
+			rbLight.setBackground(lightBgColor);
+			rbDark.setBackground(lightBgColor);
+			rbLight.setForeground(Color.black);
+			rbDark.setForeground(Color.black);
 			}
 		};
 		rbLight.addActionListener(rbLightListener);
 		
-		ActionListener rbDarListener = new ActionListener() {
+		ActionListener rbDarkListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				//cambio el color del fondo 
 				panelCalc.setBackground(bgColor);
+				//cambio el color de los botons primarios
+				b1.setBackground(primaryButtonColor);
+				b1.setForeground(Color.black);
+				b2.setBackground(primaryButtonColor);
+				b2.setForeground(Color.black);
+				b3.setBackground(primaryButtonColor);
+				b3.setForeground(Color.black);
+				b4.setBackground(primaryButtonColor);
+				b4.setForeground(Color.black);
+				b5.setBackground(primaryButtonColor);
+				b5.setForeground(Color.black);
+				b6.setBackground(primaryButtonColor);
+				b6.setForeground(Color.black);
+				b7.setBackground(primaryButtonColor);
+				b7.setForeground(Color.black);
+				b8.setBackground(primaryButtonColor);
+				b8.setForeground(Color.black);
+				b9.setBackground(primaryButtonColor);
+				b9.setForeground(Color.black);
+				b0.setBackground(primaryButtonColor);
+				b0.setForeground(Color.black);
+				bMenos.setBackground(secondaryButtonColor);
+				bMenos.setForeground(Color.black);
+				bPunto.setBackground(secondaryButtonColor);
+				bPunto.setForeground(Color.black);
+				//cambio color de los botones secundarios
+				bClear.setBackground(secondaryButtonColor);
+				bClear.setForeground(Color.black);
+				bIgual.setBackground(secondaryButtonColor);
+				bIgual.setForeground(Color.black);
+				bSuma.setBackground(secondaryButtonColor);
+				bSuma.setForeground(Color.black);
+				bResta.setBackground(secondaryButtonColor);
+				bResta.setForeground(Color.black);
+				bMulti.setBackground(secondaryButtonColor);
+				bMulti.setForeground(Color.black);
+				bDiv.setBackground(secondaryButtonColor);
+				bDiv.setForeground(Color.black);
+				bTips.setBackground(secondaryButtonColor);
+				bTips.setForeground(Color.black);
+				//cambio colores de los radio buttons
 				rbLight.setBackground(bgColor);
 				rbDark.setBackground(bgColor);
 				rbLight.setForeground(Color.white);
 				rbDark.setForeground(Color.white);
 			}
 		};
-		rbDark.addActionListener(rbDarListener);
+		rbDark.addActionListener(rbDarkListener);
 	}
 	
 	//carga todos los visores del panel de propinas

@@ -333,9 +333,16 @@ public class CalculadoraLayout extends JFrame implements Calcular{
 		ActionListener bClearActionListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				//si el visor tiene algun valor , lo limpio
 				if(!visorVacio()) visor.setText("");
+				//el numero Alpha lo reinicio a cero y defino la ultima operacion
 				nAlpha = 0;
 				ultimaOperacion = Operacion.AC;
+//				//limpio los visores de TIPS
+//				totalTips.setText("");
+//				propinaPorPersona.setText("");
+//				propinaTotal.setText("");
+			
 			}
 		};
 		bClear.addActionListener(bClearActionListener);
@@ -476,19 +483,22 @@ public class CalculadoraLayout extends JFrame implements Calcular{
 					propinaPorPersonaJLabel.setVisible(true);
 					
 					//paso el valor total inical de un visor al otro
-					totalTips.setText(visor.getText());
+					if(!visorVacio())totalTips.setText(visor.getText());
 					//reinicio los valores de porcentaje de propina y cant de personas
 					porcentajeTips.setSelectedIndex(4);
 					cantPersonasTips.setSelectedIndex(0);
 					//muestro la propina total, dependiendo del porcentaje y del total inicial
 					try {
-						System.out.println("porcentaje tips listener actioned");
-						propinaTotal.setText(String.format("$ %.2f",calcularPropinaTotal(Double.parseDouble(totalTips.getText()),porcentajeTips.getSelectedIndex())));
+						//calculo y muestro el valor de la propina TOTAL -- paso por parametros el total sin propina y el porcentaje de propina seleccionado
+						propinaTotal.setText(String.format("%.2f",calcularPropinaTotal(Double.parseDouble(totalTips.getText()),porcentajeTips.getSelectedIndex())));
+						//calculo y muestro el valor de propina por persona
+//						System.err.println(cantPersonasTips.getSelectedIndex());
+						propinaPorPersona.setText(String.format("%.2f",calcularPropinaPorPersona(Double.parseDouble(propinaTotal.getText()),cantPersonasTips.getSelectedIndex())));
 					}catch (RuntimeException rte) {
-						if(rte instanceof NullPointerException) System.out.println("El valor total de la cuenta es Null");
-						if(rte instanceof NumberFormatException) System.out.println("El valor total de la cuenta no es un double");
+						System.out.println(rte.toString());
+						if(rte instanceof NullPointerException) System.out.print("-El parse.Double recibio un null");
+						if(rte instanceof NumberFormatException) System.out.print("-El parse.Double no recibio un String con un parse Double ");
 					}
-					
 				}else {
 					//oculto todos los visores de TIPS
 					totalTips.setVisible(false);
@@ -666,7 +676,7 @@ public class CalculadoraLayout extends JFrame implements Calcular{
 		totalTips.setVisible(false);
 		
 		//indica la cantidad de personas (clientes)
-		Integer [] cantPersonasIntegers = {1,2,3,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20};
+		Integer [] cantPersonasIntegers = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20};
 		cantPersonasTips = new JComboBox<>(cantPersonasIntegers);
 		cantPersonasTips.setBounds(41,101,150,20);
 		cantPersonasTips.setEditable(false);
@@ -708,37 +718,112 @@ public class CalculadoraLayout extends JFrame implements Calcular{
 		panelCalc.add(propinaTotal);
 		panelCalc.add(propinaPorPersona);
 		
-//		ActionListener porcenatjeTipsListener = new ActionListener() {
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				
-//			}
-//		};
-//		porcentajeTips.addActionListener(porcenatjeTipsListener);
-//		
-//		ActionListener cantPersonasListener = new ActionListener() {
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				// TODO Auto-generated method stub
-//			}
-//		};
+		ActionListener porcenatjeTipsListener = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try{
+					propinaTotal.setText(String.format("%.2f",calcularPropinaTotal(Double.parseDouble(totalTips.getText()),porcentajeTips.getSelectedIndex())));
+					propinaPorPersona.setText(String.format("%.2f",calcularPropinaPorPersona(Double.parseDouble(propinaTotal.getText()),cantPersonasTips.getSelectedIndex())));
+				}catch (RuntimeException rte) {
+					System.out.println(rte.toString());
+					if(rte instanceof NullPointerException) System.out.print("-El parse.Double recibio un null");
+					if(rte instanceof NumberFormatException) System.out.print("-El parse.Double no recibio un String con un parse Double para usar");
+				}
+			}
+		};
+		porcentajeTips.addActionListener(porcenatjeTipsListener);
+		
+		ActionListener cantPersonasListener = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					propinaPorPersona.setText(String.format("%.2f",calcularPropinaPorPersona(Double.parseDouble(propinaTotal.getText()),cantPersonasTips.getSelectedIndex())));
+				}catch (RuntimeException rte) {
+					System.out.println(rte.toString());
+					if(rte instanceof NullPointerException) System.out.print("-El parse.Double recibio un null");
+					if(rte instanceof NumberFormatException) System.out.print("-El parse.Double no recibio un String con un parse Double para usar");
+				}
+			}
+		};
+		cantPersonasTips.addActionListener(cantPersonasListener);
 	}
 	
+	//devuele el valor double de la propina total -- recibe por paremetro el total SIN propina y el index del JComboBox del % de propina seleccionado
 	private double calcularPropinaTotal(double total,int porcentajeTipsIndex) {
-		/* 
-		 * Queda por desarrollar el meotod que devuelva el valor total de propina a dejar (double).
-		 * Conciderar usar una estructura Map o Enum => podriamos tener un valor (String) a mostrar por el 
-		 * JComboBox que este automaticamente vinculada con una valor (int) de porcentaje. Esto facilitaria
-		 * el desarrollo para evitar usar un switch-case con todos los index del array pasado al JComboBox. 
-		 * Chequear si se puede pasar otra estructura al JComboBox que no sea un array
-		 */
-		return 0;
-		
+		double propinaTotal = 0;
+		switch(porcentajeTipsIndex) {
+		case 1:
+			propinaTotal = total*0.05;
+			break;
+		case 2:
+			propinaTotal = total*0.1;
+			break;
+		case 3:
+			propinaTotal = total*0.15;
+			break;
+		case 4:
+			propinaTotal = total*0.2;
+			break;
+		case 5:
+			propinaTotal = total*0.25;
+			break;
+		case 6:
+			propinaTotal = total*0.3;
+			break;
+		case 7:
+			propinaTotal = total*0.35;
+			break;
+		case 8:
+			propinaTotal = total*0.4;
+			break;
+		case 9:
+			propinaTotal = total*0.45;
+			break;
+		case 10:
+			propinaTotal = total*0.5;
+			break;
+		case 11:
+			propinaTotal = total*0.55;
+			break;
+		case 12:
+			propinaTotal = total*0.6;
+			break;
+		case 13:
+			propinaTotal = total*0.65;
+			break;
+		case 14:
+			propinaTotal = total*0.7;
+			break;
+		case 15:
+			propinaTotal = total*0.75;
+			break;
+		case 16:
+			propinaTotal = total*0.8;
+			break;
+		case 17:
+			propinaTotal = total*0.85;
+			break;
+		case 18:
+			propinaTotal = total*0.9;
+			break;
+		case 19:
+			propinaTotal = total*0.95;
+			break;
+		case 20:
+			propinaTotal = total*2;
+			break;
+		}
+		return propinaTotal;
+	}
+	
+	private double calcularPropinaPorPersona(double propinaTotal,int cantPersonasIndex) {
+//		System.out.println(propinaTotal);
+		return propinaTotal/(++cantPersonasIndex);
 	}
 	
 	//construye las label (txt) del panel de propinas
 	private void cargarEtiquetasTipsPanel() {
-		totalTipsJLabel = new JLabel("Total sin propina");
+		totalTipsJLabel = new JLabel("Total sin propina ($)");
 		totalTipsJLabel.setBounds(41,13,150,15);
 		totalTipsJLabel.setFont(textLabelFont);
 		totalTipsJLabel.setForeground(Color.white);
@@ -756,13 +841,13 @@ public class CalculadoraLayout extends JFrame implements Calcular{
 		porcentajeTipsJLabel.setForeground(Color.white);
 		porcentajeTipsJLabel.setVisible(false);
 		
-		propinaTotalJLabel = new JLabel("Propina total");
+		propinaTotalJLabel = new JLabel("Propina total ($)");
 		propinaTotalJLabel.setBounds(41,126,150,15);
 		propinaTotalJLabel.setFont(textLabelFont);
 		propinaTotalJLabel.setForeground(Color.white);
 		propinaTotalJLabel.setVisible(false);
 		
-		propinaPorPersonaJLabel = new JLabel("Propina por persona");
+		propinaPorPersonaJLabel = new JLabel("Propina por persona ($)");
 		propinaPorPersonaJLabel.setBounds(209,126,150,15);
 		propinaPorPersonaJLabel.setFont(textLabelFont);
 		propinaPorPersonaJLabel.setForeground(Color.white);

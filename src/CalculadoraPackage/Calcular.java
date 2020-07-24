@@ -18,7 +18,7 @@ public interface Calcular {
 	
 	//fuentes de layout
 	public Font visorFont = new Font("arial",Font.ITALIC,40);
-	public Font tipsVisorFont = new Font("arial",Font.ITALIC,18);
+	public Font tipsVisorFont = new Font("arial",Font.ITALIC,14);
 	public Font textLabelFont = new Font("arial",Font.BOLD,12);
 	public Font primaryButtonsFont = new Font("arial",Font.PLAIN,20);
 	public Font secondaryButtonsFont = new Font("arial",Font.BOLD,20);

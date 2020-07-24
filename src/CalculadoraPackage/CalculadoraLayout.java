@@ -26,8 +26,8 @@ public class CalculadoraLayout extends JFrame implements Calcular{
 	private JTextArea visor;
 	//visores para propinas
 	private JTextArea totalTips;
-	private JTextField cantPersonasTips;
-	private JTextField porcentajeTips;
+	private JComboBox<Integer> cantPersonasTips;
+	private JComboBox<String> porcentajeTips;
 	private JTextField propinaTotal;
 	private JTextField propinaPorPersona;
 	//jlabels para propinas
@@ -474,6 +474,21 @@ public class CalculadoraLayout extends JFrame implements Calcular{
 					porcentajeTipsJLabel.setVisible(true);
 					propinaTotalJLabel.setVisible(true);
 					propinaPorPersonaJLabel.setVisible(true);
+					
+					//paso el valor total inical de un visor al otro
+					totalTips.setText(visor.getText());
+					//reinicio los valores de porcentaje de propina y cant de personas
+					porcentajeTips.setSelectedIndex(4);
+					cantPersonasTips.setSelectedIndex(0);
+					//muestro la propina total, dependiendo del porcentaje y del total inicial
+					try {
+						System.out.println("porcentaje tips listener actioned");
+						propinaTotal.setText(String.format("$ %.2f",calcularPropinaTotal(Double.parseDouble(totalTips.getText()),porcentajeTips.getSelectedIndex())));
+					}catch (RuntimeException rte) {
+						if(rte instanceof NullPointerException) System.out.println("El valor total de la cuenta es Null");
+						if(rte instanceof NumberFormatException) System.out.println("El valor total de la cuenta no es un double");
+					}
+					
 				}else {
 					//oculto todos los visores de TIPS
 					totalTips.setVisible(false);
@@ -612,9 +627,9 @@ public class CalculadoraLayout extends JFrame implements Calcular{
 				b9.setForeground(Color.black);
 				b0.setBackground(primaryButtonColor);
 				b0.setForeground(Color.black);
-				bMenos.setBackground(secondaryButtonColor);
+				bMenos.setBackground(primaryButtonColor);
 				bMenos.setForeground(Color.black);
-				bPunto.setBackground(secondaryButtonColor);
+				bPunto.setBackground(primaryButtonColor);
 				bPunto.setForeground(Color.black);
 				//cambio color de los botones secundarios
 				bClear.setBackground(secondaryButtonColor);
@@ -651,14 +666,23 @@ public class CalculadoraLayout extends JFrame implements Calcular{
 		totalTips.setVisible(false);
 		
 		//indica la cantidad de personas (clientes)
-		cantPersonasTips = new JTextField("");
+		Integer [] cantPersonasIntegers = {1,2,3,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20};
+		cantPersonasTips = new JComboBox<>(cantPersonasIntegers);
 		cantPersonasTips.setBounds(41,101,150,20);
 		cantPersonasTips.setEditable(false);
 		cantPersonasTips.setFont(tipsVisorFont);
 		cantPersonasTips.setVisible(false);
 		
 		//indica el porcentaje que se quiere dejar de propina (de 0 a 100)
-		porcentajeTips = new JTextField();
+		String [] porcentajeTipStrings = {
+				"0 %","5 %","10 %","15 %","20%",
+				"25 %","30 %","35 %","40 %",
+				"45 %","50 %","55 %","60 %",
+				"65 %","70 %","75 %","80 %",
+				"85 %","90 %","95 %","100 %"
+		};
+		porcentajeTips = new JComboBox<>(porcentajeTipStrings);
+		porcentajeTips.setSelectedIndex(4);
 		porcentajeTips.setBounds(209,101,150,20);
 		porcentajeTips.setEditable(false);
 		porcentajeTips.setFont(tipsVisorFont);
@@ -684,6 +708,32 @@ public class CalculadoraLayout extends JFrame implements Calcular{
 		panelCalc.add(propinaTotal);
 		panelCalc.add(propinaPorPersona);
 		
+//		ActionListener porcenatjeTipsListener = new ActionListener() {
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				
+//			}
+//		};
+//		porcentajeTips.addActionListener(porcenatjeTipsListener);
+//		
+//		ActionListener cantPersonasListener = new ActionListener() {
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				// TODO Auto-generated method stub
+//			}
+//		};
+	}
+	
+	private double calcularPropinaTotal(double total,int porcentajeTipsIndex) {
+		/* 
+		 * Queda por desarrollar el meotod que devuelva el valor total de propina a dejar (double).
+		 * Conciderar usar una estructura Map o Enum => podriamos tener un valor (String) a mostrar por el 
+		 * JComboBox que este automaticamente vinculada con una valor (int) de porcentaje. Esto facilitaria
+		 * el desarrollo para evitar usar un switch-case con todos los index del array pasado al JComboBox. 
+		 * Chequear si se puede pasar otra estructura al JComboBox que no sea un array
+		 */
+		return 0;
+		
 	}
 	
 	//construye las label (txt) del panel de propinas
@@ -694,7 +744,7 @@ public class CalculadoraLayout extends JFrame implements Calcular{
 		totalTipsJLabel.setForeground(Color.white);
 		totalTipsJLabel.setVisible(false);
 		
-		cantPersonasJLabel = new JLabel("Número de personas");
+		cantPersonasJLabel = new JLabel("Cantidad de personas");
 		cantPersonasJLabel.setBounds(41,84,150,15);
 		cantPersonasJLabel.setFont(textLabelFont);
 		cantPersonasJLabel.setForeground(Color.white);

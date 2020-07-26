@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
+import javax.swing.text.JTextComponent;
 
 
 public class CalculadoraLayout extends JFrame implements Calcular{
@@ -524,18 +525,15 @@ public class CalculadoraLayout extends JFrame implements Calcular{
 		bTips.addActionListener(tipsActionListener);
 	}
 		
-	//devuelve true si el visor esta vacio
+	//devuelve true si el JTextComponent esta vacio o false de lo contrario
+	//si se pasa un objeto q no es un jtextcomponent, devuele false
 	private boolean visorVacio(Object o) {
-		if (o instanceof JTextArea) {
-			JTextArea jta = (JTextArea) o;
-			if(jta.getText().equals("")) return true;
-			else return false;
-		}else if (o instanceof JTextField) {
-			JTextField jtf = (JTextField) o;
-			if(jtf.getText().equals("")) return true;
+		if(o instanceof JTextComponent) {
+			JTextComponent jtc = (JTextComponent) o;
+			if(jtc.getText().equals("")) return true;
 			else return false;
 		}else {
-			System.out.println("El metodo VisorVacio() ha sido mal utilizado. No ha sido aplicado a un jtextfiled o jtextarea");
+			System.out.println("El metodo VisorVacio() ha sido mal utilizado. No ha sido aplicado a un JTextComponent");
 			return false;
 		}
 	}

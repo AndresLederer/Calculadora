@@ -826,7 +826,6 @@ public class CalculadoraLayout extends JFrame implements Calcular{
 	}
 	
 	private double calcularPropinaPorPersona(double propinaTotal,int cantPersonasIndex) {
-//		System.out.println(propinaTotal);
 		return propinaTotal/(++cantPersonasIndex);
 	}
 	

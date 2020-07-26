@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 
+
 public class CalculadoraLayout extends JFrame implements Calcular{
 	//defino enum con los 4 tipos de operacions que hara la calculadora
 	enum Operacion{
@@ -333,16 +334,19 @@ public class CalculadoraLayout extends JFrame implements Calcular{
 		ActionListener bClearActionListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//si el visor tiene algun valor , lo limpio
-				if(!visorVacio()) visor.setText("");
+				//si el visor de calc standar tiene algun valor , lo limpio
+				if(!visorVacio(visor)) visor.setText("");
+				//si el visor de tips, limpio los visores de TIPS y vuelvo los combo box al default
+				if(!visorVacio(totalTips)) {
+					totalTips.setText("");
+					propinaPorPersona.setText("");
+					propinaTotal.setText("");
+					cantPersonasTips.setSelectedIndex(0);
+					porcentajeTips.setSelectedIndex(4);
+				}
 				//el numero Alpha lo reinicio a cero y defino la ultima operacion
 				nAlpha = 0;
 				ultimaOperacion = Operacion.AC;
-//				//limpio los visores de TIPS
-//				totalTips.setText("");
-//				propinaPorPersona.setText("");
-//				propinaTotal.setText("");
-			
 			}
 		};
 		bClear.addActionListener(bClearActionListener);
@@ -351,7 +355,7 @@ public class CalculadoraLayout extends JFrame implements Calcular{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try{
-					if(!visorVacio()) {
+					if(!visorVacio(visor)) {
 						if(ultimaOperacion != Operacion.IGUAL)
 							nAlpha += Double.parseDouble(visor.getText());
 						ultimaOperacion = Operacion.SUMA;
@@ -369,7 +373,7 @@ public class CalculadoraLayout extends JFrame implements Calcular{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					if(!visorVacio()) {
+					if(!visorVacio(visor)) {
 						if(ultimaOperacion == Operacion.AC || ultimaOperacion == Operacion.IGUAL) {
 							nAlpha = Double.parseDouble(visor.getText());
 						}else {
@@ -390,7 +394,7 @@ public class CalculadoraLayout extends JFrame implements Calcular{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					if(!visorVacio()) {
+					if(!visorVacio(visor)) {
 						if(ultimaOperacion == Operacion.AC || ultimaOperacion == Operacion.IGUAL) {
 							nAlpha = Double.parseDouble(visor.getText());
 						}else {
@@ -411,7 +415,7 @@ public class CalculadoraLayout extends JFrame implements Calcular{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					if(!visorVacio()) {
+					if(!visorVacio(visor)) {
 						if(ultimaOperacion == Operacion.AC || ultimaOperacion == Operacion.IGUAL)
 							nAlpha = Double.parseDouble(visor.getText());
 						else
@@ -483,7 +487,7 @@ public class CalculadoraLayout extends JFrame implements Calcular{
 					propinaPorPersonaJLabel.setVisible(true);
 					
 					//paso el valor total inical de un visor al otro
-					if(!visorVacio())totalTips.setText(visor.getText());
+					if(!visorVacio(visor)) totalTips.setText(visor.getText());
 					//reinicio los valores de porcentaje de propina y cant de personas
 					porcentajeTips.setSelectedIndex(4);
 					cantPersonasTips.setSelectedIndex(0);
@@ -492,7 +496,6 @@ public class CalculadoraLayout extends JFrame implements Calcular{
 						//calculo y muestro el valor de la propina TOTAL -- paso por parametros el total sin propina y el porcentaje de propina seleccionado
 						propinaTotal.setText(String.format("%.2f",calcularPropinaTotal(Double.parseDouble(totalTips.getText()),porcentajeTips.getSelectedIndex())));
 						//calculo y muestro el valor de propina por persona
-//						System.err.println(cantPersonasTips.getSelectedIndex());
 						propinaPorPersona.setText(String.format("%.2f",calcularPropinaPorPersona(Double.parseDouble(propinaTotal.getText()),cantPersonasTips.getSelectedIndex())));
 					}catch (RuntimeException rte) {
 						System.out.println(rte.toString());
@@ -522,11 +525,19 @@ public class CalculadoraLayout extends JFrame implements Calcular{
 	}
 		
 	//devuelve true si el visor esta vacio
-	private boolean visorVacio() {
-		if(visor.getText().equals(""))
-			return true;
-		else 			
+	private boolean visorVacio(Object o) {
+		if (o instanceof JTextArea) {
+			JTextArea jta = (JTextArea) o;
+			if(jta.getText().equals("")) return true;
+			else return false;
+		}else if (o instanceof JTextField) {
+			JTextField jtf = (JTextField) o;
+			if(jtf.getText().equals("")) return true;
+			else return false;
+		}else {
+			System.out.println("El metodo VisorVacio() ha sido mal utilizado. No ha sido aplicado a un jtextfiled o jtextarea");
 			return false;
+		}
 	}
 	
 	//muestra en el visor un mensaje de error
